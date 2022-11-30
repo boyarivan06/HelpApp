@@ -1,11 +1,20 @@
 from app.app_file import app
 from flask_restful import Resource, reqparse, abort
 from flask_jwt_simple import jwt_required, get_jwt_identity
-from flask import jsonify
+from flask import jsonify, request as req
 from app.models import HelpRequest
 
 
-help_parser = reqparse.RequestParser()
+@app.route('/api/help_requests', methods=['GET', 'POST'])
+def help_requests():
+    if req.method == 'GET':
+        requests = app.help_repo.get_all()
+        return jsonify(requests)
+    elif req.method == 'POST':
+        request = HelpRequest(author=req.json['author'])
+
+
+'''help_parser = reqparse.RequestParser()
 help_parser.add_argument('id', required=True)
 help_parser.add_argument('author', required=True)
 help_parser.add_argument('title')
@@ -51,7 +60,7 @@ class HelpListRes(Resource):
 
 app.api.add_resource(HelpRes, '/api/help_request/<int:help_id>')
 app.api.add_resource(HelpListRes, '/api/help_requests/')
-
+'''
 
 if __name__ == '__main__':
     app.run()
