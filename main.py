@@ -3,6 +3,7 @@ from flask_restful import Resource, reqparse, abort
 from flask_jwt_simple import jwt_required, get_jwt_identity
 from flask import jsonify, request as req
 from app.models import HelpRequest
+from flask import Response
 
 
 @app.route('/api/help_requests', methods=['GET', 'POST'])
@@ -12,7 +13,8 @@ def help_requests():
         return jsonify(requests)
     elif req.method == 'POST':
         request = HelpRequest(author=req.json['author'])
-
+        app.help_repo.request_create(request)
+        return jsonify(request)
 
 '''help_parser = reqparse.RequestParser()
 help_parser.add_argument('id', required=True)
