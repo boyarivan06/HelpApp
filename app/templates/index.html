@@ -2,12 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>...</title>
+    <title>Помощь</title>
 </head>
 <body>
-        <h1>Тут нет ничего интересного</h1>
-        <form action="#" method="post">
+    <header>
+        <h1>Вам помочь?</h1>
+    </header>
+    <main>
+        {% if not user %}
+        <a href="/reg">Регистрация</a>
+        <a href="/login">Войти в аккаунт</a>
+        {% else %}
+        <p>user - {{user.username}}</p>
+        <a href="/logout">Выйти из аккаунта</a>
+        <form action="/" method="post">
+            <input type="hidden" name="id" value="0">
             <button type="submit">HELP</button>
         </form>
+        {% endif %}
+
+    </main>
+
 </body>
 </html>

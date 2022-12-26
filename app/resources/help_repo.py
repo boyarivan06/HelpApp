@@ -15,7 +15,7 @@ class MemoryHelpRepo:
         return post
 
     def request_create(self, help):
-        help.created = datetime.now()
+        # help.created = datetime.now()
         self.session.add(help)
         self.session.commit()
         return help
@@ -23,8 +23,8 @@ class MemoryHelpRepo:
     def request_delete(self, help_id):
         post = self.session.query(HelpRequest).filter(HelpRequest.id == help_id).first()
         if not post:
-            return f"Post does not exist for id {help_id}"
-        post.delete()
+            return f"Request does not exist for id {help_id}"
+        self.session.delete(post)
         self.session.commit()
         return None
 

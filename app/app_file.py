@@ -2,6 +2,7 @@ from flask import Flask, make_response, jsonify
 from flask_jwt_simple import JWTManager
 from flask_restful import Api
 from app.resources.help_repo import MemoryHelpRepo
+from app.resources.user_repo import MemoryUsersRepo
 from app.tools.json_encoder import MyJsonEncoder
 from app import db_setup
 
@@ -15,6 +16,7 @@ class HelpApp(Flask):
 
         self.json_encoder = MyJsonEncoder
         self.help_repo = MemoryHelpRepo()
+        self.user_repo = MemoryUsersRepo()
         self.jwt = JWTManager(self)
         self.api = Api(self)
 

@@ -8,9 +8,18 @@
     <main>
         <ol>
             {% for obj in data %}
-                <li>{{obj.author}} at {{obj.time_created}}</li>
+                <li>
+                    <div>
+                        <p>{{obj.author}} at {{obj.time_created.hour}}:{{obj.time_created.minute}}</p>
+                        <form action="/admin" method="post">
+                            <input name="id" type="hidden" value="{{obj.id}}">
+                            <button type="submit">Готово</button>
+                        </form>
+                    </div>
+                </li>
             {% endfor %}
         </ol>
+        <a href="/logout">Выйти из аккаунта</a>
     </main>
 </body>
 </html>
