@@ -21,8 +21,10 @@ def password_valid(password: str):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     global requests_today, current_user
+    if not current_user:
+        return redirect(url_for('login'))
     form = HelpForm()
-    if current_user and (form.validate_on_submit() or req.method == 'POST'):
+    if form.validate_on_submit() or req.method == 'POST':
         if form.id.data == 0:
             if not requests_today or requests_today[0] != datetime.datetime.now().date():
                 requests_today = (datetime.datetime.now().date(), dict())
@@ -40,14 +42,14 @@ def index():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    global current_user
+    global current_user, requests_today
     if not current_user or not current_user.admin:
         return redirect(url_for('index'))
     form = DeleteForm()
     if form.validate_on_submit() or req.method == 'POST':
         app.help_repo.request_delete(form.id.data)
     data = app.help_repo.get_all()
-    return render_template('admin.html', data=data)
+    return render_template('admin.html', data=data, user=current_user)
 
 
 @app.route('/api/help_requests', methods=['GET', 'POST'])
@@ -107,6 +109,11 @@ def logout():
     current_user = None
     return redirect(url_for('index'))
 
+
+@app.route('/profile/<int:id>')
+def profile(id):
+    if id != current_user.id:
+        return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run()

@@ -1,0 +1,22 @@
+@import url(https://allfont.net/allfont.css?fonts=micra); /*"Micra"*/
+@import url(https://allfont.net/allfont.css?fonts=europe-normal); /*"Europe Normal"*/
+.color-theme1 {
+    --warm-white: #F3EFE0;
+    --light-gray: #8b89aa;
+    --middle-gray: #434242;
+    --dark-gray: #222222;
+    --blue-green: #22A39F;
+}
+
+body, input, button {
+    font-family: "Europe Normal";
+}
+h1 {
+    font-size: 30px;
+}
+h2 {
+    font-size: 20px;
+}
+h3 {
+    font-size: 17px;
+}
