@@ -85,14 +85,11 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
-            {% if user.admin %}
+            {% if user and user.admin %}
             <li class="nav-item">
                 <a href="/admin" class="nav-link">Панель админа</a>
             </li>
             {% endif %}
-            <li class="nav-item">
-            <a class="nav-link" href="/profile">Профиль</a>
-            </li>
             
 
             <!--
@@ -105,13 +102,11 @@
             
         
             -->
-            
-            <li class="nav-item">
-                <a class="nav-link" href="/logout">Выйти из аккаунта</a>
-            </li>
+            {% if user %}
             <li class="nav-item">
                 <a class="nav-link disabled">@{{user.username}}</a>
             </li>
+            {% endif %}
         </ul>
       </div>
     </div>

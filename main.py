@@ -6,6 +6,7 @@ from app.models import HelpRequest, User
 from flask import Response
 from app.forms import HelpForm, DeleteForm, RegisterForm, LoginForm
 import datetime
+import socket
 from string import ascii_lowercase, ascii_uppercase, digits
 
 
@@ -20,20 +21,11 @@ def password_valid(password: str):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    global requests_today, current_user
-    if not current_user:
-        return redirect(url_for('login'))
     form = HelpForm()
     if form.validate_on_submit() or req.method == 'POST':
         if form.id.data == 0:
-            if not requests_today or requests_today[0] != datetime.datetime.now().date():
-                requests_today = (datetime.datetime.now().date(), dict())
-            new = HelpRequest(author=f'{current_user.name} {current_user.surname}')
+            new = HelpRequest(author=socket.gethostname())
             app.help_repo.request_create(new)
-            if new.author not in requests_today[1].keys():
-                requests_today[1][new.author] = 0
-            requests_today[1][new.author] += 1
-            print('.........HELP..........')
             return redirect(url_for('index'))
         elif form.id.data == 1:
             app.user_repo.make_admin(current_user.id)
@@ -42,7 +34,6 @@ def index():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    global current_user, requests_today
     if not current_user or not current_user.admin:
         return redirect(url_for('index'))
     form = DeleteForm()
@@ -114,6 +105,7 @@ def logout():
 def profile(id):
     if id != current_user.id:
         return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run()
