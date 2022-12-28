@@ -38,8 +38,12 @@ class MemoryUsersRepo:
         self.db_sess.commit()
 
     def request_delete(self, id):
-        self.db_sess.query(User).get(id).delete()
+        post = self.db_sess.query(User).filter(User.id == id).first()
+        if not post:
+            return f"Request does not exist for id {id}"
+        self.db_sess.delete(post)
         self.db_sess.commit()
+        return 'OK'
 
     def make_admin(self, id):
         user = self.db_sess.query(User).get(id)

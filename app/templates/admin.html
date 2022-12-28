@@ -98,17 +98,16 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/">Главная</a>
           </li>
-          
+          <li class="nav-item">
+              <a href="/reg" class="nav-link">Добавить админа</a>
+          </li>
             <li class="nav-item">
                 <a href="/logout" class="nav-link">Выйти из аккаунта</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link disabled">@{{user.username}}</a>
             </li>
-            
-          <li class="nav-item">
-            <a class="nav-link disabled">@{{user.username}}</a>
-          </li>
+
         </ul>
       </div>
     </div>
@@ -125,7 +124,7 @@
             <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">{{obj.author}}</h5>
-                  <p class="card-text">{{obj.time_created.hour}}:{{obj.time_created.minute}}</p>
+                  <p class="card-text">{{obj.time_created.date()}} {{obj.time_created.hour}}:{{obj.time_created.minute}}</p>
                   <form action="/admin" method="post">
                     <input name="id" type="hidden" value="{{obj.id}}">
                     <button class='btn btn-primary' type="submit">Закрыть</button>
