@@ -9,7 +9,6 @@ import datetime
 import socket
 from string import ascii_lowercase, ascii_uppercase, digits
 
-
 requests_today = None
 current_user = None
 
@@ -59,21 +58,24 @@ def help_requests():
 @app.route('/reg', methods=['GET', 'POST'])
 def register():
     global current_user
-    form = RegisterForm()
-    if current_user and (form.validate_on_submit() or req.method == 'POST'):
-        if form.password.data != form.password_repeat.data:
-            return render_template('reg.html', warning='Пароли не совпадают')
-        if not password_valid(form.password.data):
-            return render_template('reg.html', warning='Пароль ненадёжен')
-        user = User(name=form.name.data, surname=form.surname.data, username=form.username.data, admin=True)
-        user.change_password(form.password.data)
-        app.user_repo.request_create(user)
-        current_user = user
-        if user.admin:
-            return redirect(url_for('admin'))
-        return redirect(url_for('index'))
-    else:
-        return render_template('reg.html')
+    return redirect(url_for('index'))
+
+
+''' form = RegisterForm()
+if form.validate_on_submit() or req.method == 'POST':
+    if form.password.data != form.password_repeat.data:
+        return render_template('reg.html', warning='Пароли не совпадают')
+    if not password_valid(form.password.data):
+        return render_template('reg.html', warning='Пароль ненадёжен')
+    user = User(name=form.name.data, surname=form.surname.data, username=form.username.data, admin=True)
+    user.change_password(form.password.data)
+    app.user_repo.request_create(user)
+    current_user = user
+    if user.admin:
+        return redirect(url_for('admin'))
+    return redirect(url_for('index'))
+else:
+    return render_template('reg.html')'''
 
 
 @app.route('/login', methods=['GET', 'POST'])
